@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvmama.tnt.dal.mapper.TntCodeInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.lvmama.tnt.dal.domain.TntCodeInfoPO" >
+        <id column="id" property="id" />
+        <result column="batch_no" property="batchNo" />
+        <result column="order_id" property="orderId" />
+        <result column="code_url" property="codeUrl" />
+        <result column="add_code" property="addCode" />
+        <result column="pdf" property="pdf" />
+        <result column="use_status" property="useStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="order_item_id" property="orderItemId" />
+        <result column="passcode_id" property="passCodeId" />
+        <result column="file_id" property="fileId" />
+    </resultMap>
+
+    <sql id="all_column" >
+        id, batch_no, order_id,order_item_id, passcode_id, code_url, add_code, pdf, use_status,file_id, create_time, update_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="batchNo != null and batchNo != ''" >
+            and batch_no = #{batchNo}
+        </if>
+        <if test="orderId != null" >
+            and order_id = #{orderId}
+        </if>
+        <if test="codeUrl != null and codeUrl != ''" >
+            and code_url = #{codeUrl}
+        </if>
+        <if test="addCode != null and addCode != ''" >
+            and add_code = #{addCode}
+        </if>
+        <if test="pdf != null and pdf != ''" >
+            and pdf = #{pdf}
+        </if>
+        <if test="useStatus != null and useStatus != ''" >
+            and use_status = #{useStatus}
+        </if>
+    </sql>
+
+    <select id="isBatchOrderExist" resultType="java.lang.Integer">
+        select count(id) from tnt_code_info
+        <where>
+            <if test="batchNo != null and batchNo != ''">
+                and batch_no = #{batchNo}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+        </where>
+    </select>
+
+    <select id="totalCount" parameterType="com.lvmama.tnt.dal.domain.TntCodeInfoPO" resultType="java.lang.Long">
+        select count(id)
+        from tnt_code_info
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByPage" parameterType="com.lvmama.tnt.dal.domain.TntCodeInfoPO" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_code_info
+        <where>
+            <include refid="param_sql"/>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="all_column"/>
+        from tnt_code_info
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.lvmama.tnt.dal.domain.TntCodeInfoPO" >
+        update tnt_code_info
+        <set >
+            <if test="batchNo != null and batchNo != ''" >
+                batch_no = #{batchNo},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId},
+            </if>
+            <if test="codeUrl != null and codeUrl != ''" >
+                code_url = #{codeUrl},
+            </if>
+            <if test="addCode != null and addCode != ''" >
+                add_code = #{addCode},
+            </if>
+            <if test="pdf != null and pdf != ''" >
+                pdf = #{pdf},
+            </if>
+            <if test="useStatus != null and useStatus != ''" >
+                use_status = #{useStatus},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="updateCodeStatus" parameterType="com.lvmama.tnt.dal.domain.TntCodeInfoPO" >
+        update tnt_code_info
+        <set >
+            <if test="useStatus != null and useStatus != ''" >
+                use_status = #{useStatus},
+            </if>
+        </set>
+        <where>
+                 order_item_id = #{orderItemId}
+
+
+        </where>
+    </update>
+
+    <insert id="save" parameterType="com.lvmama.tnt.dal.domain.TntCodeInfoPO" useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+        insert into tnt_code_info (batch_no, order_id,order_item_id, passcode_id,code_url, add_code, pdf, use_status,file_id, create_time, update_time)
+        values (#{batchNo}, #{orderId},#{orderItemId},#{passCodeId},#{codeUrl}, #{addCode}, #{pdf}, #{useStatus},#{fileId}, #{createTime}, #{updateTime})
+    </insert>
+
+
+    <resultMap id="ExportCodeByParamMap" type="com.lvmama.tnt.dal.domain.TntExportCodePO">
+        <result column="batchNo" property="batchNo" />
+        <result column="orderId" property="orderId" />
+        <result column="productId" property="productId" />
+        <result column="productName" property="productName" />
+        <result column="goodsId" property="goodsId" />
+        <result column="goodsName" property="goodsName" />
+        <result column="contactName" property="contactName" />
+        <result column="contactMobile" property="contactMobile" />
+        <result column="visitTime" property="visitTime" />
+        <result column="addCode" property="addCode" />
+        <result column="codeUrl" property="codeUrl" />
+        <result column="pdfUrl" property="pdfUrl" />
+        <result column="serviceId" property="serviceId" />
+        <result column="merchantId" property="merchantId" />
+        <result column="companyName" property="companyName" />
+        <result column="userId" property="userId" />
+        <result column="userName" property="userName" />
+    </resultMap>
+
+    <select id="findExportCodeByParam" resultMap="ExportCodeByParamMap" parameterType="com.lvmama.tnt.dal.domain.TntExportCodePO">
+        select
+          info.batch_no batchNo,
+          info.order_id orderId,
+          info.code_url codeUrl,
+          info.add_code addCode,
+          info.pdf pdfUrl,
+          batch.visit_time visitTime,
+          batch.contact_name contactName,
+          batch.contact_mobile contactMobile,
+          goods.product_id productId,
+          goods.product_name productName,
+          goods.goods_id goodsId,
+          goods.goods_name goodsName,
+          batch.user_id userId
+        from
+          tnt_code_info info left join
+          tnt_code_batch batch on info.batch_no = batch.batch_no
+          left join tnt_code_goods goods on batch.goods_id = goods.goods_id
+        <where>
+            <if test="batchNo != null and batchNo != ''">
+                and info.batch_no = #{batchNo}
+            </if>
+            <if test="orderId != null">
+                and info.order_id = #{orderId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByBatchNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="all_column"/>
+        from tnt_code_info
+        where batch_no = #{batchNo}
+    </select>
+
+</mapper>

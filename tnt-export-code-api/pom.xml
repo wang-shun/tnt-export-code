@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lvmama.tnt</groupId>
+        <artifactId>tnt-export-code</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tnt-export-code-api</artifactId>
+
+    <properties>
+        <!--api打包成jdk1.7版本-->
+        <java.version>1.7</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.lvmama.common</groupId>
+            <artifactId>lmm-common-util</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt-export-code-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

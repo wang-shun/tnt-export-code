@@ -1,0 +1,17 @@
+com\lvmama\tnt\dal\domain\TntCodeUserSetJoinGoodsPO.class
+com\lvmama\tnt\dal\mapper\TntCodeUserSetMapper.class
+com\lvmama\tnt\dal\domain\TntBatchOrderPO.class
+com\lvmama\tnt\dal\mapper\TntBatchOrderMapper.class
+com\lvmama\tnt\dal\domain\TntCodeBasePO.class
+com\lvmama\tnt\dal\domain\TntExportCodePO.class
+com\lvmama\tnt\dal\domain\TntCodeBatchJoinCodeGoodsPO.class
+com\lvmama\tnt\dal\domain\TntCodeCommonSetPO.class
+com\lvmama\tnt\dal\mapper\TntCodeCommonSetMapper.class
+com\lvmama\tnt\dal\domain\TntCodeBatchPO.class
+com\lvmama\tnt\dal\mapper\TntCodeBatchMapper.class
+com\lvmama\tnt\dal\mapper\TntCodeInfoMapper.class
+com\lvmama\tnt\dal\mapper\TntCodeGoodsMapper.class
+com\lvmama\tnt\dal\domain\TntCodeInfoPO.class
+com\lvmama\tnt\dal\domain\TntCodeUserSetPO.class
+com\lvmama\tnt\dal\domain\TntCodeGoodsPO.class
+com\lvmama\tnt\dal\DalConfiguration.class

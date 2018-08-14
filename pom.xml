@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lvmama.boot</groupId>
+        <artifactId>lmm-boot-starter-parent</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.lvmama.tnt</groupId>
+    <artifactId>tnt-export-code</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>tnt-export-code</name>
+
+  <modules>
+    <module>tnt-export-code-api</module>
+    <module>tnt-export-code-common</module>
+    <module>tnt-export-code-dal</module>
+    <module>tnt-export-code-reference</module>
+    <module>tnt-export-code-biz</module>
+    <module>tnt-export-code-web</module>
+    <module>tnt-export-code-startup</module>
+    <module>tnt-export-code-test</module>
+  </modules>
+
+    <properties>
+        <poi-version>3.11-beta1</poi-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

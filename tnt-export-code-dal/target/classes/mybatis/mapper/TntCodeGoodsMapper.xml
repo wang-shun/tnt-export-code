@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvmama.tnt.dal.mapper.TntCodeGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.lvmama.tnt.dal.domain.TntCodeGoodsPO">
+        <result column="id" property="id"/>
+        <result column="tnt_product_id" property="tntProductId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="product_id" property="productId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="product_name" property="productName"/>
+        <result column="is_export" property="isExport"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="all_column">
+        id,tnt_product_id,goods_id,goods_name,product_id,category_id,product_name,is_export,create_time,update_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="goodsId != null" >
+            and goods_id = #{goodsId}
+        </if>
+        <if test="goodsName != null and goodsName != ''" >
+            and goods_name like concat('%',concat(#{goodsName},'%'))
+        </if>
+        <if test="productId != null" >
+            and product_id = #{productId}
+        </if>
+        <if test="productName != null and productName != ''" >
+            and product_name like concat('%',concat(#{productName},'%'))
+        </if>
+        <if test="isExport != null and isExport != ''" >
+            and is_export = #{isExport}
+        </if>
+        <if test="categoryId != null and categoryId != ''" >
+            and category_id = #{categoryId}
+        </if>
+    </sql>
+
+    <select id="totalCount" parameterType="com.lvmama.tnt.dal.domain.TntCodeGoodsPO" resultType="java.lang.Long">
+        select count(id)
+        from tnt_code_goods
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByPage" resultMap="BaseResultMap" parameterType="com.lvmama.tnt.dal.domain.TntCodeGoodsPO">
+        select <include refid="all_column"/>
+        from tnt_code_goods
+        <where>
+            <include refid="param_sql"/>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findByID" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_code_goods
+        where id = #{id}
+    </select>
+
+    <select id="findByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_code_goods
+        where goods_id = #{goodsId}
+    </select>
+
+    <insert id="save" parameterType="com.lvmama.tnt.dal.domain.TntCodeGoodsPO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into tnt_code_goods(tnt_product_id,goods_id,goods_name,product_id,category_id,product_name,is_export,create_time,update_time)
+        values (#{tntProductId},#{goodsId},#{goodsName},#{productId},#{categoryId},#{productName},#{isExport},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="update" parameterType="com.lvmama.tnt.dal.domain.TntCodeGoodsPO">
+        update tnt_code_goods
+        <set>
+            <if test="goodsId != null" >
+                goods_id = #{goodsId},
+            </if>
+            <if test="goodsName != null and goodsName != ''" >
+                goods_name = #{goodsName},
+            </if>
+            <if test="productId != null" >
+                product_id = #{productId},
+            </if>
+            <if test="productName != null and productName != ''" >
+                product_name = #{productName},
+            </if>
+            <if test="isExport != null and isExport != ''" >
+                is_export = #{isExport},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

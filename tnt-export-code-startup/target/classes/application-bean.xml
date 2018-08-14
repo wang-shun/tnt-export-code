@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:reference id="finUserInfoService" interface="com.lvmama.tnt.finUserInfo.service.IFinUserInfoService" />
+    <dubbo:reference id="iTntCashAccountService" interface="com.lvmama.tnt.cash.account.service.ITntCashAccountService" />
+    <dubbo:reference id="tntCashAccountTradeService" interface="com.lvmama.tnt.cash.trade.service.ITntCashAccountTradeService" />
+    <dubbo:reference id="iCreditFinanceAccountRemoteService" interface="com.lvmama.tnt.finance.service.account.credit.ICreditFinanceAccountRemoteService" />
+    <dubbo:reference id="creditTransactionRemoteService" interface="com.lvmama.tnt.finance.service.credit.transaction.ICreditTransactionRemoteService" />
+    <dubbo:reference id="mistryTradeRecordService" interface="com.lvmama.tnt.misty.trade.service.IMistryTradeRecordService" />
+
+    <bean id="tntBizPayService" class="com.lvmama.tnt.service.impl.TntBizPayServiceImpl"/>
+    <bean id="payManagerFactory" class="com.lvmama.tnt.factory.pay.PayManagerFactory"/>
+    <bean id="tntCashPay" class="com.lvmama.tnt.factory.pay.TntCashPay"/>
+    <bean id="tntCreditPay" class="com.lvmama.tnt.factory.pay.TntCreditPay"/>
+    <bean id="tntMistyPay" class="com.lvmama.tnt.factory.pay.TntMistyPay"/>
+</beans>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvmama.tnt.dal.mapper.TntBatchOrderMapper" >
+    <resultMap id="BaseResultMap" type="com.lvmama.tnt.dal.domain.TntBatchOrderPO" >
+        <id column="id" property="id" />
+        <result column="batch_no" property="batchNo" />
+        <result column="order_id" property="orderId" />
+        <result column="order_item_id" property="orderItemId" />
+        <result column="tnt_order_id" property="tntOrderId" />
+        <result column="payment_status" property="paymentStatus" />
+        <result column="passcode_apply_status" property="passcodeApplyStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+
+
+    </resultMap>
+
+    <sql id="all_column" >
+        id, batch_no, order_id,order_item_id, tnt_order_id,payment_status,passcode_apply_status, create_time, update_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="batchNo != null and batchNo != ''" >
+            and batch_no = #{batchNo}
+        </if>
+        <if test="orderId != null" >
+            and order_id = #{orderId}
+        </if>
+        <if test="tntOrderId != null" >
+            and tnt_order_id = #{tntOrderId}
+        </if>
+    </sql>
+
+    <select id="findAllOrderIdsByBatchNo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select order_id from tnt_batch_order where batch_no = #{batchNo}
+    </select>
+
+    <select id="totalCount" parameterType="com.lvmama.tnt.dal.domain.TntBatchOrderPO" resultType="java.lang.Long">
+        select count(id)
+        from tnt_batch_order
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByPage" parameterType="com.lvmama.tnt.dal.domain.TntBatchOrderPO" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_batch_order
+        <where>
+            <include refid="param_sql"/>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="all_column"/>
+        from tnt_batch_order
+        where id = #{id}
+    </select>
+
+    <select id="findByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="all_column"/>
+        from tnt_batch_order
+        where order_id = #{orderId}
+    </select>
+
+    <update id="updateByOrderId" parameterType="com.lvmama.tnt.dal.domain.TntBatchOrderPO" >
+        update tnt_batch_order
+        <set >
+            <if test="paymentStatus != null and paymentStatus != ''" >
+                payment_status = #{paymentStatus},
+            </if>
+            <if test="passcodeApplyStatus != null and passcodeApplyStatus !=''" >
+                passcode_apply_Status = #{passcodeApplyStatus},
+            </if>
+
+            <if test="updateTime != null" >
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where order_id = #{orderId}
+    </update>
+
+    <insert id="save" parameterType="com.lvmama.tnt.dal.domain.TntBatchOrderPO"
+    useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into tnt_batch_order (batch_no, order_id,order_item_id,tnt_order_id,payment_status,passcode_apply_status, create_time, update_time)
+        values (#{batchNo}, #{orderId},#{orderItemId} ,#{tntOrderId},#{paymentStatus},#{passcodeApplyStatus}, #{createTime}, #{updateTime})
+    </insert>
+
+
+    <select id="countOrderStatusByBatchNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tnt_batch_order where payment_status = #{paymentStatus} and batch_no = #{batchNo}
+    </select>
+
+    <select id="countPassCodeStatusByBatchNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tnt_batch_order where passcode_apply_status = #{passcodeApplyStatus} and batch_no = #{batchNo}
+    </select>
+
+</mapper>

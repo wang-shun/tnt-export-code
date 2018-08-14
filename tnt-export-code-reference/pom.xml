@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lvmama.tnt</groupId>
+        <artifactId>tnt-export-code</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tnt-export-code-reference</artifactId>
+
+    <properties>
+        <!--deploy时跳过本模块-->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_merchant_api</artifactId>
+            <version>1.0.5-emc-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_product_api</artifactId>
+            <version>1.0.7-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.scenic</groupId>
+            <artifactId>scenic_api</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_cash_account_api</artifactId>
+            <version>1.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_fin_common</artifactId>
+            <version>1.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.lvmama.tnt</groupId>-->
+            <!--<artifactId>tnt_credit_account_api</artifactId>-->
+            <!--<version>1.0.1</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>*</artifactId>-->
+                    <!--<groupId>*</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt-export-code-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.boot</groupId>
+            <artifactId>lmm-boot-starter-dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.boot</groupId>
+            <artifactId>lmm-boot-starter-lts</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.channel.interface</groupId>
+            <artifactId>channel_interface</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.tnt.timeprice</groupId>
+            <artifactId>tnt-price-scenic-api</artifactId>
+            <version>1.0.4-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.vst.api</groupId>
+            <artifactId>vst_api</artifactId>
+            <version>2.0.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_interface</artifactId>
+            <version>1.0.0.cop-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_fin_account_trade_client</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.comm</groupId>
+            <artifactId>pay_common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.comm</groupId>
+            <artifactId>lvmama_comm</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.comm</groupId>
+            <artifactId>comlog-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.boot</groupId>
+            <artifactId>lmm-boot-starter-jms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_cash_account_api</artifactId>
+            <version>haofeifei-cash-account-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_fin_basic_api</artifactId>
+            <version>1.0.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_credit_transaction_api</artifactId>
+            <version>1.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_misty_account_api</artifactId>
+            <version>1.0.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lvmama.tnt</groupId>
+            <artifactId>tnt_credit_account_api</artifactId>
+            <version>1.0.3</version>
+            <!--<exclusions>-->
+            <!--<exclusion>-->
+            <!--<groupId>*</groupId>-->
+            <!--<artifactId>*</artifactId>-->
+            <!--</exclusion>-->
+            <!--</exclusions>-->
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.task</groupId>
+            <artifactId>task-interface</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lvmama.order</groupId>
+            <artifactId>lvmm_order_service_api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lvmama.comm</groupId>
+            <artifactId>trace-syslog</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+</project>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvmama.tnt.dal.mapper.TntCodeBatchMapper" >
+    <resultMap id="BaseResultMap" type="com.lvmama.tnt.dal.domain.TntCodeBatchPO" >
+        <id column="id" property="id" />
+        <result column="batch_no" property="batchNo" />
+        <result column="visit_time" property="visitTime" />
+        <result column="price" property="price" />
+        <result column="code_num" property="codeNum" />
+        <result column="goods_id" property="goodsId" />
+        <result column="merchant_id" property="merchantId" />
+        <result column="company_name" property="companyName" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="contact_name" property="contactName" />
+        <result column="en_firstname" property="enFirstName" />
+        <result column="en_lastname" property="enLastName" />
+        <result column="contact_email" property="contactEmail" />
+        <result column="contact_mobile" property="contactMobile" />
+        <result column="payment_type" property="paymentType" />
+        <result column="batch_status" property="batchStatus" />
+        <result column="code_type" property="codeType" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="product_id" property="productId" />
+        <result column="status_message" property="statusMessage" />
+        <result column="traveller_policy" property="travellerPolicy" />
+        <result column="people_type" property="peopleType" />
+        <result column="category_id" property="categoryId" />
+        <result column="retry_count" property="retryCount" />
+        <result column="file_id" property="fileId" />
+    </resultMap>
+
+    <resultMap id="BatchJoinGoodsResultMap" type="com.lvmama.tnt.dal.domain.TntCodeBatchJoinCodeGoodsPO" extends="BaseResultMap">
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="goods_name" property="goodsName"/>
+    </resultMap>
+
+    <sql id="all_column" >
+        id, batch_no, visit_time, price, code_num, goods_id, merchant_id, company_name, user_id,
+        user_name, contact_name, en_firstname, en_lastname, contact_email, contact_mobile,
+        payment_type, batch_status, code_type, remark, create_time, update_time,product_id,status_message,traveller_policy,people_type,category_id,retry_count,file_id
+    </sql>
+
+    <sql id="param_sql">
+        <if test="batchNo != null and batchNo != ''" >
+            and b.batch_no = #{batchNo}
+        </if>
+        <if test="visitTime != null" >
+            and b.visit_time = #{visitTime}
+        </if>
+        <if test="price != null" >
+            and b.price = #{price}
+        </if>
+        <if test="codeNum != null" >
+            and b.code_num = #{codeNum}
+        </if>
+        <if test="goodsId != null" >
+            and b.goods_id = #{goodsId}
+        </if>
+        <if test="merchantId != null" >
+            and b.merchant_id = #{merchantId}
+        </if>
+        <if test="companyName != null and companyName != ''" >
+            and b.company_name like concat('%',concat(#{companyName},'%'))
+        </if>
+        <if test="userId != null" >
+            and b.user_id = #{userId}
+        </if>
+        <if test="userName != null and userName != ''" >
+            and b.user_name like concat('%',concat(#{userName},'%'))
+        </if>
+        <if test="contactName != null and contactName != ''" >
+            and b.contact_name like concat('%',concat(#{contactName},'%'))
+        </if>
+        <if test="enFirstName != null and enFirstName != ''" >
+            and b.en_firstname = #{enFirstName}
+        </if>
+        <if test="enLastName != null and enLastName != ''" >
+            and b.en_lastname = #{enLastName}
+        </if>
+        <if test="contactEmail != null and contactEmail != ''" >
+            and b.contact_email = #{contactEmail}
+        </if>
+        <if test="contactMobile != null and contactMobile != ''" >
+            and b.contact_mobile = #{contactMobile}
+        </if>
+        <if test="paymentType != null and paymentType != ''" >
+            and b.payment_type = #{paymentType}
+        </if>
+        <if test="batchStatus != null and batchStatus != ''" >
+            and b.batch_status = #{batchStatus}
+        </if>
+        <if test="codeType != null and codeType != ''" >
+            and b.code_type = #{codeType}
+        </if>
+        <if test="createTime !=null">
+            and b.create_time &gt;= #{createTime}
+        </if>
+        <if test="createTimeB !=null">
+            and b.create_time &lt;= #{createTimeB}
+        </if>
+    </sql>
+
+    <resultMap id="mapResultMap"   type="java.util.HashMap">
+        <result property="key" column="batchNo"/>
+        <result property="value" column="codeNum"/>
+    </resultMap>
+    <select id="queryWaitingCodeNum" parameterType="java.lang.String" resultMap="mapResultMap">
+        select t.batch_no as batchNo,t.code_num codeNum from tnt_code_batch t where t.batch_status ='WAITING'
+    </select>
+
+    <select id="findByBatchNo" parameterType="java.lang.String" resultMap="BatchJoinGoodsResultMap">
+        select b.id,b.batch_no,b.visit_time,b.price,b.code_num,b.goods_id,b.merchant_id,b.company_name,b.user_id,b.user_name,
+        b.contact_name,b.en_firstname,b.en_lastname,b.contact_email,b.contact_mobile,b.payment_type,b.batch_status,
+        b.code_type,b.remark,b.create_time,b.update_time,b.status_message,b.file_id,g.product_id,g.product_name,g.goods_name
+        from tnt_code_batch b left join tnt_code_goods g on b.goods_id = g.goods_id
+        where b.batch_no = #{batchNo}
+    </select>
+
+    <select id="totalCountByJoin" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchJoinCodeGoodsPO" resultType="java.lang.Long">
+        select count(b.id)
+        from tnt_code_batch b left join tnt_code_goods g on b.goods_id = g.goods_id
+        <where>
+            <include refid="param_sql"/>
+            <if test="productId != null">
+                and g.product_id = #{productId}
+            </if>
+            <if test="productName != null and productName != ''">
+                and g.product_name like  concat(concat("%",#{productName}),"%")
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and g.goods_name like  concat(concat("%",#{goodsName}),"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="findByPageJoin" resultMap="BatchJoinGoodsResultMap" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchJoinCodeGoodsPO">
+        select b.batch_no,b.visit_time,b.price,b.code_num,b.goods_id,b.merchant_id,b.company_name,b.user_id,b.user_name,b.payment_type,b.batch_status,b.code_type,
+        b.remark,b.create_time,b.update_time,g.product_id,g.product_name,g.goods_name,b.status_message,b.file_id
+        from tnt_code_batch b left join tnt_code_goods g on b.goods_id = g.goods_id
+        <where>
+            <include refid="param_sql"/>
+            <if test="productId != null">
+                and g.product_id = #{productId}
+            </if>
+            <if test="productName != null and productName != ''">
+                and g.product_name like  concat(concat("%",#{productName}),"%")
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and g.goods_name like  concat(concat("%",#{goodsName}),"%")
+            </if>
+        </where>
+        order by b.id desc
+    </select>
+
+    <select id="totalCount" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" resultType="java.lang.Long">
+        select count(id)
+        from tnt_code_batch b
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByPage" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_code_batch b
+        <where>
+            <include refid="param_sql"/>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findBatch" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" resultMap="BaseResultMap">
+        select <include refid="all_column"/>
+        from tnt_code_batch b
+        <where>
+            <include refid="param_sql"/>
+        </where>
+        order by create_time
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="all_column"/>
+        from tnt_code_batch
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" >
+        update tnt_code_batch
+        <set >
+            <if test="batchNo != null and batchNo != ''" >
+                batch_no = #{batchNo},
+            </if>
+            <if test="visitTime != null" >
+                visit_time = #{visitTime},
+            </if>
+            <if test="price != null" >
+                price = #{price},
+            </if>
+            <if test="codeNum != null" >
+                code_num = #{codeNum},
+            </if>
+            <if test="goodsId != null" >
+                goods_id = #{goodsId},
+            </if>
+            <if test="merchantId != null" >
+                merchant_id = #{merchantId},
+            </if>
+            <if test="companyName != null and companyName != ''" >
+                company_name = #{companyName},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''" >
+                user_name = #{userName},
+            </if>
+            <if test="contactName != null and contactName != ''" >
+                contact_name = #{contactName},
+            </if>
+            <if test="enFirstName != null and enFirstName != ''" >
+                en_firstname = #{enFirstName},
+            </if>
+            <if test="enLastName != null and enLastName != ''" >
+                en_lastname = #{enLastName},
+            </if>
+            <if test="contactEmail != null and contactEmail != ''" >
+                contact_email = #{contactEmail},
+            </if>
+            <if test="contactMobile != null and contactMobile != ''" >
+                contact_mobile = #{contactMobile},
+            </if>
+            <if test="paymentType != null and paymentType != ''" >
+                payment_type = #{paymentType},
+            </if>
+            <if test="batchStatus != null and batchStatus != ''" >
+                batch_status = #{batchStatus},
+            </if>
+            <if test="statusMessage != null and statusMessage != ''" >
+                status_message = #{statusMessage},
+            </if>
+            <if test="codeType != null and codeType != ''" >
+                code_type = #{codeType},
+            </if>
+            <if test="remark != null and remark != ''" >
+                remark = #{remark},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime},
+            </if>
+            <if test="retryCount != null" >
+                retry_count = #{retryCount},
+            </if>
+            <if test="fileId != null" >
+                file_id = #{fileId},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByBatchNo" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" >
+        update tnt_code_batch
+        <set >
+            <if test="batchNo != null and batchNo != ''" >
+                batch_no = #{batchNo},
+            </if>
+            <if test="visitTime != null" >
+                visit_time = #{visitTime},
+            </if>
+            <if test="price != null" >
+                price = #{price},
+            </if>
+            <if test="codeNum != null" >
+                code_num = #{codeNum},
+            </if>
+            <if test="goodsId != null" >
+                goods_id = #{goodsId},
+            </if>
+            <if test="merchantId != null" >
+                merchant_id = #{merchantId},
+            </if>
+            <if test="companyName != null and companyName != ''" >
+                company_name = #{companyName},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''" >
+                user_name = #{userName},
+            </if>
+            <if test="contactName != null and contactName != ''" >
+                contact_name = #{contactName},
+            </if>
+            <if test="enFirstName != null and enFirstName != ''" >
+                en_firstname = #{enFirstName},
+            </if>
+            <if test="enLastName != null and enLastName != ''" >
+                en_lastname = #{enLastName},
+            </if>
+            <if test="contactEmail != null and contactEmail != ''" >
+                contact_email = #{contactEmail},
+            </if>
+            <if test="contactMobile != null and contactMobile != ''" >
+                contact_mobile = #{contactMobile},
+            </if>
+            <if test="paymentType != null and paymentType != ''" >
+                payment_type = #{paymentType},
+            </if>
+            <if test="batchStatus != null and batchStatus != ''" >
+                batch_status = #{batchStatus},
+            </if>
+            <if test="statusMessage != null and statusMessage != ''" >
+                status_message = #{statusMessage},
+            </if>
+            <if test="codeType != null and codeType != ''" >
+                code_type = #{codeType},
+            </if>
+            <if test="remark != null and remark != ''" >
+                remark = #{remark},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime},
+            </if>
+            <if test="retryCount != null" >
+                retry_count = #{retryCount},
+            </if>
+                file_id = #{fileId}
+
+        </set>
+        where batch_no = #{batchNo}
+    </update>
+
+
+
+    <insert id="save" parameterType="com.lvmama.tnt.dal.domain.TntCodeBatchPO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into tnt_code_batch (batch_no, visit_time, price, code_num, goods_id, merchant_id, company_name, user_id, user_name, contact_name, en_firstname,
+        en_lastname, contact_email, contact_mobile, payment_type, batch_status, code_type, remark, create_time,
+        update_time, product_id,status_message,traveller_policy,people_type,category_id,retry_count,file_id)
+        values (#{batchNo}, #{visitTime}, #{price}, #{codeNum}, #{goodsId}, #{merchantId}, #{companyName}, #{userId}, #{userName}, #{contactName}, #{enFirstName},
+        #{enLastName}, #{contactEmail}, #{contactMobile}, #{paymentType}, #{batchStatus}, #{codeType},
+        #{remark}, #{createTime}, #{updateTime},#{productId},#{statusMessage},#{travellerPolicy},#{peopleType},#{categoryId},#{retryCount},#{fileId})
+    </insert>
+
+</mapper>
